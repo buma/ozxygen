@@ -41,7 +41,6 @@ func LatLon2XY(lat, lon float64, z int) (int, int) {
 }
 
 func random(min, max float64) float64 {
-	rand.Seed(time.Now().UTC().UnixNano())
 	diff := max - min
 	return rand.Float64()*diff + min
 }
@@ -55,7 +54,11 @@ func main() {
 	minlon := flag.Float64("minlon", 1.69, "Min longitude")
 	maxlon := flag.Float64("maxlon", 2.98, "Max longitude")
 	num := flag.Int("num", 1, "Number of results")
+	randseed := flag.Int64("seed", time.Now().UTC().UnixNano(), "Random seed (default current nanosecond)")
 	flag.Parse()
+
+	fmt.Print("Random seed: ", *randseed, "\n")
+	rand.Seed(*randseed)
 
 	for i := 0; i < *num; i++ {
 		randlat := random(*minlat, *maxlat)
